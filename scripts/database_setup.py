@@ -1,4 +1,6 @@
 import sqlite3
+from random import random
+
 
 # Caminho do banco de dados
 db_path = "./data/database.db"
@@ -23,6 +25,16 @@ data = [
     ("Mouse", 50, 30.00, "2024-02-20"),
     ("Teclado", 20, 150.00, "2024-03-05"),
     ("Monitor", 5, 1200.00, "2024-04-12"),
+    ("Headset", 15, 300.00, "2024-05-30"),
+    ("Notebook", 10, 2500.00, "2024-01-15"),
+    ("Mouse", 50, 30.00, "2024-02-20"),
+    ("Teclado", 20, 150.00, "2024-03-05"),
+    ("Monitor", 5, 1200.00, "2024-04-12"),
+    ("Headset", 15, 300.00, "2024-05-30"),
+    ("Notebook", 10, 2500.00, "2024-01-15"),
+    ("Mouse", 50, 30.00, "2024-02-20"),
+    ("Teclado", 20, 150.00, "2024-03-05"),
+    ("Monitor", 5, 1200.00, "2024-04-12"),
     ("Headset", 15, 300.00, "2024-05-30")
 ]
 
@@ -31,4 +43,4 @@ cursor.executemany("INSERT INTO sales (product, quantity, price, date) VALUES (?
 conn.commit()
 conn.close()
 
-print("Banco de dados comfigurado com sucesso!")
+print("Banco de dados configurado com sucesso!")
