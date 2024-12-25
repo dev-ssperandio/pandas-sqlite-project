@@ -1,10 +1,34 @@
+import pandas as pd
 import sqlite3
+from pathlib import Path
 
 
-db_path = './data/database.db'
+DB_PATH = Path("./data/sales.db")
+
+def fetch_data_as_dataframe():
+    """Lê os dados da tabela sales e retorna um dataframe Pandas"""
+    try:
+        # Abrindo conexão 
+        with sqlite3.connect(DB_PATH) as conn:
+            query = "SELECT * FROM sales;"
+            df = pd.read_sql_query(query, conn)
+        
+        df["quantity"] = df["quantity"].astype(int)
+        df["price"] = df["price"].astype(float)
+        df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
+        
+        return df
+
+
+    except Exception as e:
+        print(f"\nErro ao carregar os dados: {e}")
+        return None
+
+
+# Implementando CRUD
 
 def create_data(product, quantity, price, date):
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     query = """INSERT INTO sales (product, quantity, price, date) VALUES (?, ?, ?, ?);"""
@@ -17,7 +41,7 @@ def create_data(product, quantity, price, date):
     print("\nDado criado com sucesso!")
 
 def read_data():
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     query = "SELECT * FROM sales;"
@@ -31,7 +55,7 @@ def read_data():
     return date
 
 def update_data(data_id, product=None, quantity=None, price=None, date=None):
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     fields = []
@@ -62,7 +86,7 @@ def update_data(data_id, product=None, quantity=None, price=None, date=None):
     print("\nDado atualizado com sucesso!")
 
 def delete_data(data_id):
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     query = "DELETE FROM sales WHERE id = ?;"
